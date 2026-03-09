@@ -1,0 +1,13 @@
+services:
+  drone:
+    image: drone-fleet-redis-drone:latest   # build local (ver instruções abaixo)
+    # Se não quiser buildar, use a linha abaixo com a imagem publicada (se houver):
+    # image: ghcr.io/guiscoob7/drone-fleet-drone:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.drone
+    environment:
+      - ORCHESTRATOR_HOST=${ORCHESTRATOR_IP:-192.168.1.104}
+      - NAMESERVER_HOST=${ORCHESTRATOR_IP:-192.168.1.104}
+      - REDIS_ADDR=${ORCHESTRATOR_IP:-192.168.1.104}:6379
+    restart: on-failure
